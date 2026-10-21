@@ -121,6 +121,8 @@ textarea.field{min-height:110px;resize:vertical}
 .sum-pal{display:inline-flex;flex-direction:column;gap:4px;margin:4px 10px 8px 0;width:120px}
 .sum-pal span{font-size:12px;color:var(--ink)}
 .sum-font{display:inline-block;margin:4px 14px 4px 0;font-size:24px;color:var(--ink)}
+.howto{margin:8px 0 0;padding-left:20px;display:grid;gap:10px;font-size:15px;line-height:1.5;color:#515154}
+.howto b{color:var(--ink);font-weight:600}
 .done-box{background:rgba(255,245,204,.7);border:1px solid rgba(255,255,255,.8);border-radius:var(--radius);padding:18px;margin:20px 0;box-shadow:var(--hi),var(--shadow);line-height:1.5}
 .print-only{display:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -242,10 +244,17 @@ function single(key,items,{cols="g2",render}={}){
 /* ---------- Steps ---------- */
 const STEPS = [
  {id:"intro", label:"", html:()=>`
-   <div class="kicker">Brief visual</div>
-   <h1>Demos forma visual<br>a tu marca</h1>
-   <p class="lead">Ya construimos juntos el propósito, la personalidad y la historia de tu marca. Este brief es solo para traducir todo eso a lo visual: colores, tipografías, formas y estilo.</p>
-   <p class="lead">No hay respuestas correctas: elige lo que sientas que te representa. Te tomará unos <b>10 minutos</b> y tus respuestas se guardan en este dispositivo mientras avanzas.</p>
+   <div class="kicker">Brief visual de marca</div>
+   <h1>Dale forma visual<br>a tu marca</h1>
+   <p class="lead">Cuéntanos qué colores, letras, formas e imágenes sientes que van con tu marca. Con tus respuestas prepararemos propuestas visuales hechas a tu medida.</p>
+   <div class="q" style="margin-top:22px">
+     <h3>¿Cómo funciona?</h3>
+     <ol class="howto">
+       <li><b>Elige lo que te represente.</b> No hay respuestas correctas ni incorrectas; guíate por lo que te gusta y sientes cercano a tu marca.</li>
+       <li><b>Avanza a tu ritmo.</b> Son 8 pasos cortos, unos 10 minutos. Tus respuestas se guardan en este dispositivo, así que puedes continuar después.</li>
+       <li><b>Descarga y envía.</b> Al final verás un resumen: descárgalo en PDF y envíaselo a Loreto Consultora.</li>
+     </ol>
+   </div>
    ${q("¿Cuál es tu nombre?","",`<input class="field" data-text="nombre" value="${esc(S.nombre)}" placeholder="Tu nombre completo" autocomplete="name">`,true,"q-nombre")}
    ${q("¿Cuál es el nombre de tu marca?","Si aún no está definido, escribe el nombre de trabajo.",`<input class="field" data-text="marca" value="${esc(S.marca)}" placeholder="Nombre de la marca" autocomplete="organization">`,true,"q-marca")}
    ${q("Tu correo (opcional)","",`<input class="field" type="email" data-text="correo" value="${esc(S.correo)}" placeholder="tu@correo.com" autocomplete="email">`)}
