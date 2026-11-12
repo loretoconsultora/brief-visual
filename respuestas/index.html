@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Respuestas · Brief de Marca</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/logo-loreto-color.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/brief.css">
+<style>
+.list{display:grid;gap:10px;margin-top:16px}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;width:100%;cursor:pointer;background:var(--glass);border:1px solid rgba(255,255,255,.75);border-radius:16px;padding:14px 16px;box-shadow:var(--hi),var(--shadow)}
+.item b{color:var(--ink);font-size:15px}
+.item small{color:var(--muted);display:block;margin-top:2px}
+.pill{font-size:12px;font-weight:600;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.pill.estrategia{background:var(--pink-soft);color:#a33a5a}
+.pill.visual{background:var(--teal-soft);color:#1f6f71}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.toolbar .field{max-width:280px}
+</style>
+</head>
+<body>
+<div class="wall"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="app" style="padding-bottom:60px">
+  <div class="top no-print"><a href="../"><img class="brand-logo" src="../assets/logo-loreto-color.png" alt="Loreto Consultora" width="1200" height="220"></a><span style="flex:1"></span><button class="btn ghost" id="logout" style="padding:8px 14px;display:none" type="button">Cerrar sesión</button></div>
+  <div id="view"></div>
+</main>
+<script src="../assets/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.js"></script>
+<script>
+const view = document.getElementById("view");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const cfg = window.LORETO_DB || {};
+let db = null, rows = [];
+if (!cfg.url || !cfg.key) {
+  view.innerHTML = `<div class="kicker">Respuestas</div><h1>Falta conectar la base</h1><p class="lead">Agrega la URL y la clave publicable de Supabase en <code>assets/config.js</code>.</p>`;
+} else {
+  db = supabase.createClient(cfg.url, cfg.key);
+  db.auth.getSession().then(({ data }) => (data.session ? loadList() : loginView()));
+}
+
+function loginView(msg = "") {
+  document.getElementById("logout").style.display = "none";
+  view.innerHTML = `<div class="kicker">Equipo Loreto</div><h1>Respuestas de los briefs</h1>
+    <div class="q"><h3>Inicia sesión</h3>
+      <input class="field" id="em" type="email" placeholder="Correo" autocomplete="email" style="margin-bottom:10px">
+      <input class="field" id="pw" type="password" placeholder="Contraseña" autocomplete="current-password">
+      <div class="err ${msg ? "show" : ""}">${esc(msg)}</div>
+      <button class="btn primary" id="go" type="button" style="margin-top:14px">Entrar</button></div>`;
+  const go = async () => {
+    const { error } = await db.auth.signInWithPassword({ email: document.getElementById("em").value.trim(), password: document.getElementById("pw").value });
+    if (error) loginView(error.message === "Invalid login credentials" ? "Correo o contraseña incorrectos." : error.message); else loadList();
+  };
+  document.getElementById("go").onclick = go;
+  document.getElementById("pw").onkeydown = (e) => { if (e.key === "Enter") go(); };
+}
+
+async function loadList() {
+  document.getElementById("logout").style.display = "";
+  view.innerHTML = `<div class="kicker">Equipo Loreto</div><h1>Respuestas</h1><p class="lead">Cargando...</p>`;
+  const { data, error } = await db.from("brief_responses").select("id, created_at, submission_id, tipo, marca, nombre, correo, resumen, saltadas").order("created_at", { ascending: false }).limit(500);
+  if (error) { view.innerHTML = `<h1>Respuestas</h1><p class="lead">No se pudieron cargar: ${esc(error.message)}</p>`; return; }
+  // si un cliente envió varias veces, se muestra solo su envío más reciente de cada brief
+  const seen = new Set();
+  rows = data.filter((r) => { const k = r.submission_id + r.tipo; if (seen.has(k)) return false; seen.add(k); return true; });
+  renderList("");
+}
+
+function renderList(filter) {
+  const f = filter.toLowerCase();
+  const list = rows.filter((r) => !f || (r.marca || "").toLowerCase().includes(f) || (r.nombre || "").toLowerCase().includes(f));
+  view.innerHTML = `<div class="kicker">Equipo Loreto</div><h1>Respuestas</h1>
+    <div class="toolbar"><input class="field" id="filter" placeholder="Buscar marca o nombre" value="${esc(filter)}"><span class="saved">${list.length} respuestas</span></div>
+    <div class="list">${list.map((r) => `<button class="item" type="button" data-id="${r.id}"><span><b>${esc(r.marca || "Sin marca")}</b><small>${esc(r.nombre || "")}${r.correo ? " · " + esc(r.correo) : ""} · ${new Date(r.created_at).toLocaleString("es-MX", { dateStyle: "medium", timeStyle: "short" })}</small></span><span class="pill ${r.tipo}">${r.tipo === "estrategia" ? "Estrategia" : "Visual"}</span></button>`).join("") || '<p class="lead">Aún no hay respuestas.</p>'}</div>`;
+  const inp = document.getElementById("filter");
+  inp.oninput = () => { const pos = inp.selectionStart; renderList(inp.value); const n = document.getElementById("filter"); n.focus(); n.setSelectionRange(pos, pos); };
+  view.querySelectorAll(".item").forEach((b) => (b.onclick = () => detail(rows.find((r) => r.id == b.dataset.id))));
+}
+
+function detail(r) {
+  const titulo = r.tipo === "estrategia" ? "Brief de estrategia de marca" : "Brief de identidad visual";
+  view.innerHTML = `<img class="print-only" src="../assets/logo-loreto-color.png" alt="Loreto Consultora" style="height:30px;width:auto;margin-bottom:6px">
+    <div class="kicker">${titulo}</div><h1>${esc(r.marca || "Sin marca")}</h1>
+    <p class="lead" style="margin-top:-4px">${esc(r.nombre || "")}${r.correo ? " · " + esc(r.correo) : ""} · ${new Date(r.created_at).toLocaleString("es-MX", { dateStyle: "long", timeStyle: "short" })}</p>
+    <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="back" type="button">Volver</button><button class="btn accent" id="print" type="button">Descargar PDF</button></div>
+    <div class="sumcard">${(r.resumen || []).map((sec) => `<div class="sum-sec"><h4>${esc(sec.seccion)}</h4>${sec.filas.map((f) => `<div class="sum-row"><span class="sum-k">${esc(f.pregunta)}</span><span class="sum-v">${f.respuesta ? (f.respuesta === "Ya compartida con Loreto" ? '<span class="tag">Ya compartida con Loreto</span>' : esc(f.respuesta).replace(/\n/g, "<br>")) : '<span style="color:#a1a1a6">—</span>'}</span></div>`).join("")}</div>`).join("")}</div>`;
+  document.getElementById("back").onclick = () => renderList("");
+  document.getElementById("print").onclick = () => { document.title = `${titulo} - ${r.marca || ""}`; window.print(); };
+  window.scrollTo(0, 0);
+}
+document.getElementById("logout").onclick = async () => { await db.auth.signOut(); loginView(); };
+</script>
+<style>@media print{ .wall,.top,.no-print{display:none!important} .app{padding:0} .sumcard{box-shadow:none;border:0;padding:0;background:#fff;backdrop-filter:none} .print-only{display:block} }</style>
+</body>
+</html>

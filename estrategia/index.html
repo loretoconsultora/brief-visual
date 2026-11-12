@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Brief de Estrategia · Loreto Consultora</title>
+<meta name="description" content="Brief de estrategia de marca de Loreto Consultora: propósito, audiencia, personalidad y voz.">
+<link rel="icon" href="../assets/logo-loreto-color.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Permanent+Marker&family=Playfair+Display:wght@500&family=Chewy&family=Great+Vibes&family=Raleway:wght@200&family=Orbitron:wght@800&family=Questrial&family=UnifrakturMaguntia&family=Caveat:wght@500&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee+Inline&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/brief.css">
+</head>
+<body>
+<div class="wall"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="app">
+  <div class="top no-print"><a href="../" aria-label="Inicio"><img class="brand-logo" src="../assets/logo-loreto-color.png" alt="Loreto Consultora" width="1200" height="220"></a><div class="progress"><i id="bar"></i></div></div>
+  <div class="steplabel" id="steplabel"></div>
+  <form id="form" autocomplete="on" onsubmit="return false"></form>
+</main>
+<nav class="nav no-print">
+  <div class="in">
+    <button class="btn ghost" id="prev" type="button">Atrás</button>
+    <span class="saved" id="saved"></span>
+    <button class="btn primary" id="next" type="button">Comenzar</button>
+  </div>
+</nav>
+<script src="../assets/config.js"></script>
+<script src="../assets/brief-core.js"></script>
+<script>
+const ARQ = [
+  ["Inocente", "🌼", "Optimista, sencilla y honesta. Ve lo bueno de las cosas.", "Blancanieves"],
+  ["Explorador", "🧭", "Libre, curiosa y aventurera. Busca nuevos caminos.", "Moana, Indiana Jones"],
+  ["Sabio", "📚", "Experta y reflexiva. Comparte conocimiento y verdad.", "Gandalf, Pocahontas"],
+  ["Héroe", "🛡️", "Valiente y decidida. Supera retos y ayuda a otros a lograrlo.", "Mujer Maravilla, Harry Potter"],
+  ["Rebelde", "⚡", "Rompe las reglas y desafía lo establecido.", "Mulán, Dominic Toretto"],
+  ["Mago", "✨", "Transforma y crea experiencias que sorprenden.", "P. T. Barnum en El gran showman"],
+  ["Persona común", "🤝", "Cercana, trabajadora y con valores. Es una más del grupo.", "La persona correcta que todos conocen"],
+  ["Amante", "❤️", "Apasionada, cálida y sensible a la belleza.", "Bella, Megara"],
+  ["Bufón", "🎈", "Divertida y espontánea. Hace sonreír.", "Fred y George Weasley"],
+  ["Cuidador", "🫶", "Protege, acompaña y cuida a los demás.", "Baymax, Lilo"],
+  ["Creador", "🎨", "Innovadora e imaginativa. Crea cosas nuevas.", "Tony Stark, Frida Kahlo"],
+  ["Gobernante", "👑", "Líder natural. Da orden, seguridad y dirección.", "Mufasa"],
+];
+const OFRECE = ["Productos físicos", "Servicios profesionales", "Contenido (blog, video, streaming, marca personal)", "Tecnología y software", "Otro"];
+const FORTALEZAS = ["Equipo de trabajo", "Variedad de productos o servicios", "Experiencia y trayectoria", "Cartera de clientes", "Alianzas con proveedores", "Modelo de negocio", "Innovación o diferenciadores", "Logística y operación", "Liderazgo", "Presencia digital", "Establecimiento físico", "Atención al cliente", "Precio"];
+const AMENAZAS = ["Competencia con precios bajos", "Nuevos competidores", "Cambios en el mercado o en los hábitos", "Dependencia de pocos clientes", "Falta de personal", "Regulación", "Situación económica", "Tecnología que cambia rápido"];
+const CANALES = ["Google", "Instagram", "Facebook", "TikTok", "LinkedIn", "WhatsApp", "Recomendación de otros clientes", "Sitio web", "Plataformas o apps (Thumbtack, Airbnb, etc.)", "Eventos y networking", "Punto de venta físico"];
+const VALORES = ["Honestidad", "Confianza", "Calidad", "Cercanía", "Compromiso", "Responsabilidad", "Innovación", "Creatividad", "Respeto", "Empatía", "Excelencia", "Trabajo en equipo", "Transparencia", "Pasión", "Servicio", "Sustentabilidad", "Familia", "Alegría"];
+const TONO = [["formal", "Formal", "Casual"], ["serio", "Serio", "Divertido"], ["tecnico", "Técnico", "Sencillo"], ["inspirador", "Inspirador", "Práctico"], ["sobrio", "Sobrio", "Entusiasta"]];
+
+window.BRIEF = {
+  key: "loreto-brief-estrategia-v1",
+  tipo: "estrategia",
+  titulo: "Brief de estrategia de marca",
+  noSkip: ["q-nombre", "q-marca"],
+  blank: {
+    cargo: "", telefono: "", etapa: "", tipoMarca: "",
+    ofrece: [], ofreceOtro: "", giro: "", historia: "", principales: "",
+    proposito: "", obj1: "", obj3: "", obj5: "", lograr: "",
+    fortalezas: [], debilidades: [], amenazas: [], diagOtro: "", hoy3: "", quiero3: "", funciona: "", noFunciona: "",
+    a1_quien: "", a1_genero: "", a1_edad: "", a1_zona: "", a1_personalidad: "", a1_intereses: "", a1_dolores: "", a1_valoran: "", a1_dudas: "", canales: [],
+    a2_tiene: "", a2_quien: "", a2_edad: "", a2_dolores: "", a2_valoran: "",
+    c1: "", c1b: "", c1m: "", c2: "", c2b: "", c2m: "", c3: "", c3b: "", c3m: "", admira: "", unico: "", eligen: "", problema: "",
+    arquetipo: "", arquetipo2: "", valores: [], valoresOtro: "", percepcion: "", sentir: "",
+    tono: {}, trato: "", siPalabras: "", noPalabras: "", frase: "", mensajes: "",
+    expectativas: "", comentarios: "",
+  },
+  onChange(k) { if (k === "a2_tiene") rerender(); },
+  steps: [],
+  sections: null,
+};
+
+const { q, input, area, chips, single, multi, scales, req } = H;
+const arqCard = (a) => `<span class="arq">${a[1]}</span><span class="lbl">${a[0]}</span><span class="ex">${a[2]}<br><b>Piensa en:</b> ${a[3]}</span>`;
+
+BRIEF.steps = [
+  { id: "intro", label: "", html: () => `
+    <div class="kicker">Estrategia de marca</div>
+    <h1>Brief de Estrategia de Marca</h1>
+    <p class="subtitle">La esencia de tu marca, antes de su imagen</p>
+    <p class="lead">Con tus respuestas definiremos el propósito, la audiencia, la personalidad y la voz de tu marca. Es la base de todo lo que construiremos juntos.</p>
+    <div class="q" style="margin-top:22px"><h3>¿Cómo funciona?</h3><ol class="howto">
+      <li><b>Responde con calma.</b> Son 8 pasos, unos 20 minutos. No hay respuestas correctas ni incorrectas.</li>
+      <li><b>Si ya nos lo contaste, sáltalo.</b> Cada pregunta tiene la casilla <b>“Ya compartí esta información con Loreto”</b> para avanzar sin repetir.</li>
+      <li><b>Tus respuestas se guardan en este dispositivo.</b> Puedes cerrar y continuar después. Al final las envías a Loreto.</li>
+    </ol></div>
+    ${q("¿Cuál es tu nombre?", "", input("nombre", "Tu nombre completo", 'autocomplete="name"'), true, "q-nombre")}
+    ${q("¿Cuál es el nombre de tu marca?", "Si aún no está definido, escribe el nombre de trabajo.", input("marca", "Nombre de la marca", 'autocomplete="organization"'), true, "q-marca")}
+    ${q("Tu cargo y tus datos de contacto", "", `<div class="row2">${input("cargo", "Cargo (ej. Fundadora, Director)")}${input("telefono", "Teléfono", 'type="tel" autocomplete="tel"')}</div><div style="margin-top:10px">${input("correo", "tu@correo.com", 'type="email" autocomplete="email"')}</div>`, false, "q-contacto")}
+    ${q("¿En qué etapa está tu marca?", "", chips("etapa", ["Marca nueva", "Marca existente que queremos renovar"], true), false, "q-etapa")}
+    ${q("¿Qué tipo de marca es?", "", chips("tipoMarca", ["Marca de empresa", "Marca personal", "Ambas"], true), false, "q-tipo")}
+  `, validate: () => req("q-nombre", S.nombre.trim(), "Escribe tu nombre para continuar.") && req("q-marca", S.marca.trim(), "Escribe el nombre de tu marca.") },
+
+  { id: "negocio", label: "Tu negocio", html: () => `
+    <h2>Tu negocio</h2><p class="lead">Cuéntanos qué haces y de dónde viene tu marca.</p>
+    ${q("¿Qué ofreces?", "Elige las que apliquen.", chips("ofrece", OFRECE) + `<div style="margin-top:12px">${input("ofreceOtro", "Si elegiste otro, ¿cuál?")}</div>`, true, "q-ofrece")}
+    ${q("Giro de tu marca", "Ej. limpieza residencial, educación, consultoría.", input("giro", "Giro"), true, "q-giro")}
+    ${q("Historia de tu marca", "Cómo nació, quién la fundó y qué momentos la han marcado.", area("historia"), true, "q-historia")}
+    ${q("Tus 3 productos o servicios principales", "Los que más vendes o los que más quieres impulsar.", area("principales", "1.\n2.\n3."), false, "q-principales")}
+  `, validate: () => req("q-ofrece", S.ofrece.length, "Elige al menos una opción.") && req("q-giro", S.giro.trim(), "Escribe el giro de tu marca.") && req("q-historia", S.historia.trim(), "Cuéntanos un poco de la historia de tu marca.") },
+
+  { id: "rumbo", label: "Rumbo", html: () => `
+    <h2>Rumbo</h2><p class="lead">Hacia dónde va tu marca y por qué existe.</p>
+    ${q("¿Por qué existe tu marca, más allá de vender?", "Su propósito: el cambio que quiere lograr en la vida de sus clientes o en su comunidad.", area("proposito"), true, "q-proposito")}
+    ${q("Objetivos de tu marca", "Escribe hasta 3 en cada plazo.", `<div class="sublabel">En 1 año</div>${area("obj1", "1.\n2.\n3.")}<div class="sublabel">En 3 años</div>${area("obj3", "1.\n2.\n3.")}<div class="sublabel">En 5 años o más</div>${area("obj5", "1.\n2.\n3.")}`, true, "q-objetivos")}
+    ${q("¿Qué tiene que lograr la marca en los próximos 12 meses?", "Ej. que nos reconozcan en nuestra ciudad, subir el precio, atraer otro tipo de cliente.", area("lograr"), false, "q-lograr")}
+  `, validate: () => req("q-proposito", S.proposito.trim(), "Cuéntanos por qué existe tu marca.") && req("q-objetivos", (S.obj1 + S.obj3 + S.obj5).trim(), "Escribe al menos un objetivo.") },
+
+  { id: "diagnostico", label: "Diagnóstico", html: () => `
+    <h2>Diagnóstico</h2><p class="lead">Dónde está tu marca hoy.</p>
+    ${q("¿Cuáles son las fortalezas de tu marca?", "Elige todas las que apliquen.", chips("fortalezas", FORTALEZAS), true, "q-fortalezas")}
+    ${q("¿Y sus debilidades?", "Elige todas las que apliquen.", chips("debilidades", FORTALEZAS), true, "q-debilidades")}
+    ${q("¿Qué amenazas ves en tu mercado?", "Elige las que apliquen.", chips("amenazas", AMENAZAS) + `<div style="margin-top:12px">${input("diagOtro", "Otras fortalezas, debilidades o amenazas (opcional)")}</div>`, false, "q-amenazas")}
+    ${q("¿Con qué 3 palabras te describen hoy tus clientes?", "", input("hoy3", "Ej. puntuales, amables, caros"), true, "q-hoy3")}
+    ${q("¿Con qué 3 palabras te gustaría que te describieran?", "", input("quiero3", "Ej. confiables, expertos, cercanos"), true, "q-quiero3")}
+    ${q("De tu marca actual, ¿qué funciona y qué no?", "Logo, nombre, redes, sitio web, la forma de hablar... Si es una marca nueva, puedes saltar esta pregunta.", `<div class="sublabel">Lo que funciona</div>${area("funciona")}<div class="sublabel">Lo que no funciona</div>${area("noFunciona")}`, false, "q-funciona")}
+  `, validate: () => req("q-fortalezas", S.fortalezas.length, "Elige al menos una fortaleza.") && req("q-debilidades", S.debilidades.length, "Elige al menos una debilidad.") && req("q-hoy3", S.hoy3.trim(), "Escribe 3 palabras.") && req("q-quiero3", S.quiero3.trim(), "Escribe 3 palabras.") },
+
+  { id: "audiencia", label: "Audiencia", html: () => `
+    <h2>Audiencia</h2><p class="lead">Diseñemos algo especial para las personas a las que te diriges.</p>
+    ${q("¿Quién es tu cliente principal?", "Descríbelo como si nos lo presentaras.", area("a1_quien", "Ej. familias con hijos en Plano que trabajan fuera de casa"), true, "q-a1")}
+    ${q("Género, edad y zona", "", chips("a1_genero", ["Mujeres", "Hombres", "Ambos"], true) + `<div class="row2" style="margin-top:12px">${input("a1_edad", "Rango de edad (ej. 30 a 55)")}${input("a1_zona", "Ciudad, región o país")}</div>`, true, "q-a1datos")}
+    ${q("¿Cómo es su personalidad y qué le interesa?", "Lo relacionado con lo que ofreces y también otros intereses.", `<div class="sublabel">Personalidad</div>${area("a1_personalidad")}<div class="sublabel">Intereses</div>${area("a1_intereses")}`, true, "q-a1perfil")}
+    ${q("¿Qué necesita y qué le duele?", "Los problemas que le resuelves.", area("a1_dolores"), true, "q-a1dolores")}
+    ${q("¿Qué valora más al elegir una marca como la tuya?", "", area("a1_valoran"), true, "q-a1valoran")}
+    ${q("¿Qué le hace dudar antes de comprarte?", "Sus objeciones más frecuentes: precio, confianza, tiempo...", area("a1_dudas"), false, "q-a1dudas")}
+    ${q("¿Dónde te encuentran tus clientes?", "Elige todos los canales que apliquen.", chips("canales", CANALES), false, "q-canales")}
+    ${q("¿Tienes una segunda audiencia importante?", "Ej. quien compra y quien usa el servicio, o donantes y beneficiarios.", chips("a2_tiene", ["Sí", "No"], true) + (S.a2_tiene === "Sí" ? `<div class="sublabel">¿Quién es?</div>${area("a2_quien")}<div class="row2" style="margin-top:10px">${input("a2_edad", "Rango de edad")}</div><div class="sublabel">¿Qué necesita?</div>${area("a2_dolores")}<div class="sublabel">¿Qué valora?</div>${area("a2_valoran")}` : ""), false, "q-a2")}
+  `, validate: () => req("q-a1", S.a1_quien.trim(), "Describe a tu cliente principal.") && req("q-a1datos", S.a1_genero && (S.a1_edad.trim() || S.a1_zona.trim()), "Completa género y al menos edad o zona.") && req("q-a1perfil", (S.a1_personalidad + S.a1_intereses).trim(), "Cuéntanos un poco de su personalidad o intereses.") && req("q-a1dolores", S.a1_dolores.trim(), "Cuéntanos qué necesita.") && req("q-a1valoran", S.a1_valoran.trim(), "Cuéntanos qué valora.") },
+
+  { id: "competencia", label: "Competencia", html: () => `
+    <h2>Competencia</h2><p class="lead">Conocer el mercado nos ayuda a que tu marca destaque.</p>
+    ${q("Tus 3 principales competidores", "El nombre, qué hacen bien y qué no.", [1, 2, 3].map((n) => `<div class="row3">${input("c" + n, "Competidor " + n)}${input("c" + n + "b", "Qué hace bien")}${input("c" + n + "m", "Qué no hace bien")}</div>`).join(""), true, "q-comp")}
+    ${q("¿Qué marca admiras y por qué?", "Puede ser de tu industria o de cualquier otra.", area("admira"), true, "q-admira")}
+    ${q("¿Qué hace única a tu marca frente a la competencia?", "", area("unico"), true, "q-unico")}
+    ${q("¿Por qué te eligen tus mejores clientes?", "Lo que te dicen o lo que notas que los hace volver.", area("eligen"), false, "q-eligen")}
+    ${q("¿Qué problema o conflicto resuelve tu marca?", "Lo que pasa en la vida de tu cliente antes y después de ti.", area("problema"), true, "q-problema")}
+  `, validate: () => req("q-comp", S.c1.trim(), "Escribe al menos un competidor.") && req("q-admira", S.admira.trim(), "Cuéntanos qué marca admiras.") && req("q-unico", S.unico.trim(), "Cuéntanos qué te hace único.") && req("q-problema", S.problema.trim(), "Cuéntanos qué problema resuelves.") },
+
+  { id: "personalidad", label: "Personalidad", html: () => `
+    <h2>Personalidad</h2><p class="lead">Construyamos la personalidad de tu marca de una forma divertida.</p>
+    ${q("Si tu marca fuera un personaje, ¿cuál sería?", "Elige el que mejor la describe.", single("arquetipo", ARQ, { render: arqCard }), true, "q-arq")}
+    ${q("¿Y cuál sería su segundo rasgo?", "Opcional. Un personaje que complementa al primero.", single("arquetipo2", ARQ, { cols: "g3", render: (a) => `<span class="arq" style="font-size:26px">${a[1]}</span><span class="lbl">${a[0]}</span>` }), false, "q-arq2")}
+    ${q("Valores de tu marca", "Elige de 3 a 5.", chips("valores", VALORES, false, 5) + `<div style="margin-top:12px">${input("valoresOtro", "Otros valores (opcional)")}</div>`, true, "q-valores")}
+    ${q("¿Qué percepción te gustaría proyectar?", "Cómo quieres que te vean.", area("percepcion"), true, "q-percepcion")}
+    ${q("¿Cómo te gustaría hacer sentir a tus clientes?", "", area("sentir"), true, "q-sentir")}
+  `, validate: () => req("q-arq", S.arquetipo, "Elige un personaje.") && req("q-valores", S.valores.length || S.valoresOtro.trim(), "Elige al menos un valor.") && req("q-percepcion", S.percepcion.trim(), "Cuéntanos cómo quieres que te vean.") && req("q-sentir", S.sentir.trim(), "Cuéntanos cómo quieres que se sientan.") },
+
+  { id: "voz", label: "Voz y mensajes", html: () => `
+    <h2>Voz y mensajes</h2><p class="lead">Cómo habla tu marca. El 3 es un punto medio.</p>
+    ${q("Ubica la forma de hablar de tu marca en cada escala", "", scales("tono", TONO), true, "q-tono")}
+    ${q("¿Cómo le hablas a tus clientes?", "", chips("trato", ["De tú", "De usted", "Depende del canal"], true), false, "q-trato")}
+    ${q("Palabras que tu marca sí usaría y palabras que nunca usaría", "", `<div class="sublabel">Sí usaría</div>${input("siPalabras", "Ej. hogar, tranquilidad, detalle")}<div class="sublabel">Nunca usaría</div>${input("noPalabras", "Ej. barato, rápido, sucio")}`, false, "q-palabras")}
+    ${q("¿Tienes una frase o eslogan actual?", "", input("frase", "Escribe tu frase actual, si la tienes"), false, "q-frase")}
+    ${q("¿Cuáles son los 3 mensajes que todo cliente debería saber de ti?", "", area("mensajes", "1.\n2.\n3."), true, "q-mensajes")}
+  `, validate: () => req("q-tono", TONO.every((t) => S.tono[t[0]]), "Responde todas las escalas para continuar.") && req("q-mensajes", S.mensajes.trim(), "Escribe al menos un mensaje.") },
+
+  { id: "cierre", label: "Para terminar", html: () => `
+    <h2>Para terminar</h2>
+    ${q("¿Qué esperas de este proyecto?", "Lo que te haría decir “valió la pena”.", area("expectativas"), false, "q-expect")}
+    ${q("¿Algo más que quieras contarnos?", "Opcional.", area("comentarios"), false, "q-coment")}
+  `},
+];
+
+const lines = (...xs) => xs.filter((x) => x && x.trim()).join("\n");
+BRIEF.sections = () => [
+  { h: "Datos", rows: [
+    { k: "Cargo", v: S.cargo, skip: "q-contacto" }, { k: "Teléfono", v: S.telefono, skip: "q-contacto" },
+    { k: "Etapa", v: S.etapa, skip: "q-etapa" }, { k: "Tipo de marca", v: S.tipoMarca, skip: "q-tipo" } ] },
+  { h: "Tu negocio", rows: [
+    { k: "Qué ofrece", v: [...S.ofrece.filter((x) => x !== "Otro"), S.ofreceOtro], skip: "q-ofrece" },
+    { k: "Giro", v: S.giro, skip: "q-giro" }, { k: "Historia", v: S.historia, skip: "q-historia" },
+    { k: "Productos o servicios principales", v: S.principales, skip: "q-principales" } ] },
+  { h: "Rumbo", rows: [
+    { k: "Propósito", v: S.proposito, skip: "q-proposito" },
+    { k: "Objetivos a 1 año", v: S.obj1, skip: "q-objetivos" }, { k: "Objetivos a 3 años", v: S.obj3, skip: "q-objetivos" }, { k: "Objetivos a 5 años o más", v: S.obj5, skip: "q-objetivos" },
+    { k: "Qué debe lograr en 12 meses", v: S.lograr, skip: "q-lograr" } ] },
+  { h: "Diagnóstico", rows: [
+    { k: "Fortalezas", v: S.fortalezas, skip: "q-fortalezas" }, { k: "Debilidades", v: S.debilidades, skip: "q-debilidades" },
+    { k: "Amenazas", v: [...S.amenazas, S.diagOtro], skip: "q-amenazas" },
+    { k: "Cómo la describen hoy", v: S.hoy3, skip: "q-hoy3" }, { k: "Cómo quiere que la describan", v: S.quiero3, skip: "q-quiero3" },
+    { k: "Lo que funciona", v: S.funciona, skip: "q-funciona" }, { k: "Lo que no funciona", v: S.noFunciona, skip: "q-funciona" } ] },
+  { h: "Audiencia principal", rows: [
+    { k: "Quién es", v: S.a1_quien, skip: "q-a1" },
+    { k: "Género, edad y zona", v: [S.a1_genero, S.a1_edad, S.a1_zona].filter(Boolean).join(" · "), skip: "q-a1datos" },
+    { k: "Personalidad", v: S.a1_personalidad, skip: "q-a1perfil" }, { k: "Intereses", v: S.a1_intereses, skip: "q-a1perfil" },
+    { k: "Necesidades y dolores", v: S.a1_dolores, skip: "q-a1dolores" }, { k: "Qué valora", v: S.a1_valoran, skip: "q-a1valoran" },
+    { k: "Qué le hace dudar", v: S.a1_dudas, skip: "q-a1dudas" }, { k: "Dónde la encuentra", v: S.canales, skip: "q-canales" } ] },
+  { h: "Segunda audiencia", rows: S.a2_tiene === "Sí" ? [
+    { k: "Quién es", v: S.a2_quien, skip: "q-a2" }, { k: "Edad", v: S.a2_edad, skip: "q-a2" },
+    { k: "Qué necesita", v: S.a2_dolores, skip: "q-a2" }, { k: "Qué valora", v: S.a2_valoran, skip: "q-a2" } ] : [{ k: "¿Tiene una segunda audiencia?", v: S.a2_tiene, skip: "q-a2" }] },
+  { h: "Competencia", rows: [
+    ...[1, 2, 3].filter((n) => S["c" + n].trim() || n === 1).map((n) => ({ k: `Competidor ${n}`, v: lines(S["c" + n], S["c" + n + "b"] && "Bien: " + S["c" + n + "b"], S["c" + n + "m"] && "No tan bien: " + S["c" + n + "m"]), skip: "q-comp" })),
+    { k: "Marca que admira", v: S.admira, skip: "q-admira" }, { k: "Qué la hace única", v: S.unico, skip: "q-unico" },
+    { k: "Por qué la eligen", v: S.eligen, skip: "q-eligen" }, { k: "Problema que resuelve", v: S.problema, skip: "q-problema" } ] },
+  { h: "Personalidad", rows: [
+    { k: "Personaje principal", v: S.arquetipo, skip: "q-arq" }, { k: "Segundo rasgo", v: S.arquetipo2, skip: "q-arq2" },
+    { k: "Valores", v: [...S.valores, S.valoresOtro], skip: "q-valores" },
+    { k: "Percepción a proyectar", v: S.percepcion, skip: "q-percepcion" }, { k: "Cómo hacer sentir", v: S.sentir, skip: "q-sentir" } ] },
+  { h: "Voz y mensajes", rows: [
+    ...TONO.map((t) => ({ k: `${t[1]} ↔ ${t[2]}`, v: S.tono[t[0]] ? `<b>${S.tono[t[0]]}</b> <span style="color:#a1a1a6">/ 5</span>` : "", raw: true, text: S.tono[t[0]] ? `${S.tono[t[0]]} de 5` : "", skip: "q-tono" })),
+    { k: "Trato", v: S.trato, skip: "q-trato" },
+    { k: "Palabras que sí usaría", v: S.siPalabras, skip: "q-palabras" }, { k: "Palabras que nunca usaría", v: S.noPalabras, skip: "q-palabras" },
+    { k: "Frase actual", v: S.frase, skip: "q-frase" }, { k: "Mensajes clave", v: S.mensajes, skip: "q-mensajes" } ] },
+  { h: "Para terminar", rows: [
+    { k: "Expectativas", v: S.expectativas, skip: "q-expect" }, { k: "Comentarios", v: S.comentarios, skip: "q-coment" } ] },
+];
+startBrief(BRIEF);
+</script>
+</body>
+</html>

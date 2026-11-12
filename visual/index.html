@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Brief Visual · Loreto Consultora</title>
+<meta name="description" content="Brief visual de Loreto Consultora: colores, tipografías y estilo para construir tu marca.">
+<link rel="icon" href="../assets/logo-loreto-color.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Permanent+Marker&family=Playfair+Display:wght@500&family=Chewy&family=Great+Vibes&family=Raleway:wght@200&family=Orbitron:wght@800&family=Questrial&family=UnifrakturMaguntia&family=Caveat:wght@500&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee+Inline&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/brief.css">
+</head>
+<body>
+<div class="wall"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="app">
+  <div class="top no-print"><a href="../" aria-label="Inicio"><img class="brand-logo" src="../assets/logo-loreto-color.png" alt="Loreto Consultora" width="1200" height="220"></a><div class="progress"><i id="bar"></i></div></div>
+  <div class="steplabel" id="steplabel"></div>
+  <form id="form" autocomplete="on" onsubmit="return false"></form>
+</main>
+<nav class="nav no-print">
+  <div class="in">
+    <button class="btn ghost" id="prev" type="button">Atrás</button>
+    <span class="saved" id="saved"></span>
+    <button class="btn primary" id="next" type="button">Comenzar</button>
+  </div>
+</nav>
+<script src="../assets/config.js"></script>
+<script src="../assets/brief-core.js"></script>
+<script>
+
+/* ---------- Data ---------- */
+const PALETTES = [
+  ["Rojos",["#FF190C","#400604","#E5150B","#BF1309","#7F0C07"]],
+  ["Naranjas",["#FF8621","#E86A20","#FF672E","#E74320","#FE3523"]],
+  ["Fucsias",["#FF00B3","#CB008F","#E6009F","#7F0059","#FF3DC5"]],
+  ["Rosas",["#C7897C","#E8A091","#F5B99D","#FCE8CD","#FFDECB"]],
+  ["Morados",["#4F1480","#C174FE","#A029FF","#603B80","#7E20CC"]],
+  ["Azules",["#0065FF","#00AAFF","#0123FF","#0087FA","#0046FE"]],
+  ["Azules rey",["#012466","#0056F3","#013BA6","#0140B2","#00328B"]],
+  ["Azules marino",["#0C1F57","#021442","#1C3973","#1051A3","#164597"]],
+  ["Celestes",["#2F4159","#8698A6","#E4EBF3","#F5F4F2","#C6D3E4"]],
+  ["Turquesas",["#4D9E97","#2D5E5A","#6ADED5","#71EBE0","#5FC4BC"]],
+  ["Verdes",["#08A607","#098C02","#025A03","#004003","#012501"]],
+  ["Verdes limón",["#8FBF1D","#5F7F12","#BFFF25","#2F4009","#ACE622"]],
+  ["Verdes hoja",["#BBF2C8","#69A658","#5F8C51","#3C592D","#C4F1AE"]],
+  ["Amarillos",["#FFEF2F","#E8C72A","#FEC93B","#E8A12B","#FF9630"]],
+  ["Dorados",["#D4B711","#7F6F00","#FEDC00","#403700","#E6C601"]],
+  ["Cafés",["#050507","#9D772C","#735823","#402E1A","#703D1E"]],
+  ["Cafés claros",["#C4812A","#B88043","#C78632","#D09342","#A96828"]],
+  ["Neutros (blanco, gris y negro)",["#8B8C7E","#C2C3B1","#000000","#32332E","#F0F2DA"]]
+];
+const FONTS = [
+  ["Brocha","'Permanent Marker'","BROCHA",""],
+  ["Clásica","'Playfair Display'","Clásica","font-weight:500"],
+  ["Divertida","Chewy","¡Divertida!",""],
+  ["Elegante","'Great Vibes'","Elegante","font-size:38px"],
+  ["Fina","Raleway","FINA","font-weight:200;letter-spacing:4px"],
+  ["Futurista","Orbitron","FUTURISTA","font-weight:800;font-size:22px"],
+  ["Geométrica","Questrial","Geométrica",""],
+  ["Gótica","'UnifrakturMaguntia'","Gótica",""],
+  ["Manuscrita","Caveat","Manuscrita","font-size:34px"],
+  ["Masculina","'Alfa Slab One'","Masculina","font-size:26px"],
+  ["Moderna","'Bebas Neue'","MODERNA","font-size:38px;letter-spacing:1px"],
+  ["Retro","'Bungee Inline'","RETRO","font-size:30px"],
+  ["Suave","Pacifico","Suave",""]
+];
+const TEMPS = ["Clara y luminosa","Vibrante y saturada","Pastel y suave","Terrosa y natural","Oscura y profunda","Neutra y sobria"];
+const SCALES = [
+  ["calido","Cálida","Sobria"],
+  ["minimal","Minimalista","Con detalle"],
+  ["moderno","Moderna","Clásica"],
+  ["serio","Seria","Divertida"],
+  ["emocional","Emocional","Racional"],
+  ["cercano","Cercana","Institucional"],
+  ["accesible","Accesible","Premium / exclusiva"]
+];
+const SHAPES = [
+  ["Orgánicas y fluidas",'<path d="M5 40 C25 5 45 55 65 25 S100 10 115 35" fill="none" stroke="#F393AE" stroke-width="6" stroke-linecap="round"/>'],
+  ["Redondeadas y amables",'<circle cx="35" cy="28" r="20" fill="#67C6C8"/><rect x="64" y="8" width="44" height="40" rx="16" fill="#FCCD0D"/>'],
+  ["Geométricas y precisas",'<rect x="10" y="10" width="36" height="36" fill="#1D1D1F"/><circle cx="84" cy="28" r="19" fill="none" stroke="#1D1D1F" stroke-width="5"/>'],
+  ["Angulosas y dinámicas",'<polygon points="8,48 38,8 58,48" fill="#F393AE"/><polygon points="62,8 112,20 78,50" fill="#3EA9AB"/>'],
+  ["Líneas finas y trazos",'<path d="M8 44 L40 12 M30 44 L62 12 M52 44 L84 12 M74 44 L106 12" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/>']
+];
+const FINISHES = ["Colores planos y sólidos","Degradados","Texturas (papel, grano, lienzo)","Trazos hechos a mano","Mucho espacio en blanco","Patrones y repeticiones"];
+const IMGTYPES = ["Fotografía real","Ilustración","Íconos y gráficos simples","Mezcla de foto e ilustración"];
+const LIGHTS = [["Cálida","tonos dorados, atardecer"],["Natural","luz de día, colores reales"],["Fría","tonos azulados, limpia"],["Contrastada","sombras marcadas, dramática"]];
+const PEOPLE = ["Muchas personas, en momentos reales","Algunas personas, sin ser protagonistas","Prefiero objetos, espacios y detalles"];
+const APPEAR = ["Sí, quiero ser la cara de la marca","Sí, de vez en cuando","Prefiero no aparecer","Aún no lo sé"];
+const FORMATS = ["Fotografías","Video hablando a cámara","Reels o videos cortos","Transmisiones en vivo","Voz en off, sin mostrar el rostro","Ninguno por ahora"];
+const LOOKS = ["Cercana y casual","Profesional y formal","En mi espacio de trabajo","Al aire libre","Acompañando a otras personas","En mi día a día"];
+const MATERIAL = ["Fotos profesionales","Fotos casuales de buena calidad","Videos","Un logo o identidad actual","Nada todavía"];
+const LANGS = ["Español","Inglés","Bilingüe (español e inglés)","Otro"];
+const APPS = ["Foto de perfil y portadas para redes sociales","Plantillas para publicaciones","Plantillas para historias","Portadas y textos para reels o videos","Firma de correo electrónico","Presentaciones (charlas, talleres, propuestas)","Formatos para clientes o pacientes (fichas, consentimientos, recordatorios)","Página web","Tarjeta de presentación digital","Tarjeta de presentación impresa","Papelería (hojas membretadas, recibos)","Promocionales impresos"];
+
+
+const LOGOS = [
+  ["Isotipo", "Un símbolo que se reconoce sin texto", '<circle cx="40" cy="26" r="20" fill="#F393AE"/><path d="M30 26 L40 14 L50 26 L40 38 Z" fill="#fff"/>'],
+  ["Logotipo", "Solo el nombre, con una letra especial", '<text x="40" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1D1D1F" font-family="Georgia,serif">Marca</text>'],
+  ["Imagotipo", "Símbolo y texto que también funcionan por separado", '<circle cx="14" cy="26" r="11" fill="#67C6C8"/><text x="29" y="31" font-size="14" font-weight="700" fill="#1D1D1F" font-family="Helvetica,Arial">Marca</text>'],
+  ["Isologo", "Símbolo y texto integrados, no se separan", '<rect x="8" y="6" width="64" height="40" rx="20" fill="#FCCD0D"/><text x="40" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#1D1D1F" font-family="Helvetica,Arial">Marca</text>'],
+  ["Monograma", "Un símbolo hecho con las iniciales", '<circle cx="40" cy="26" r="21" fill="none" stroke="#1D1D1F" stroke-width="3"/><text x="40" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1D1D1F" font-family="Georgia,serif">LC</text>'],
+  ["No estoy seguro", "Lo definimos juntos en la propuesta", '<text x="40" y="36" text-anchor="middle" font-size="28" fill="#86868B" font-family="Helvetica,Arial">?</text>'],
+];
+const DESIGN = ["Simplicidad", "Conceptual (elementos con significado)", "Creatividad (totalmente diferente)", "Adaptabilidad y flexibilidad", "Elegancia"];
+
+const { q, input, area, chips, single, multi, scales, req, swatch } = H;
+/** Tipo de marca que eligió en el brief de estrategia (si ya lo contestó). */
+function tipoMarca() {
+  try { return (JSON.parse(localStorage.getItem("loreto-brief-estrategia-v1")) || {}).tipoMarca || ""; } catch (e) { return ""; }
+}
+function fitFonts() {
+  document.querySelectorAll(".font-sample").forEach((box) => {
+    const sp = box.firstElementChild; if (!sp) return;
+    sp.style.fontSize = ""; const avail = box.clientWidth - 8; let fs = parseFloat(getComputedStyle(sp).fontSize);
+    while (sp.scrollWidth > avail && fs > 12) { fs -= 1; sp.style.fontSize = fs + "px"; }
+  });
+}
+addEventListener("resize", fitFonts);
+
+const BRIEF = {
+  key: "loreto-brief-visual-v1",
+  tipo: "visual",
+  titulo: "Brief de identidad visual",
+  noSkip: ["q-nombre", "q-marca"],
+  blank: { colores: [], evitar: [], temps: [], fuentes: [], escalas: {}, formas: [], acabados: [], logo: "", diseno: [], incluir: "", evitarElementos: "", imagen: [], luz: "", personas: "", aparecer: "", formatos: [], verse: [], material: [], imagenPersonal: "", idioma: "", idiomaOtro: "", apps: [], appsOtro: "", referencias: "", comentarios: "" },
+  afterRender() { fitFonts(); if (document.fonts) document.fonts.ready.then(fitFonts); },
+  onChange(k) { if (k === "idioma") { const o = document.getElementById("idiomaOtro"); if (o) o.style.display = S.idioma === "Otro" ? "block" : "none"; } },
+};
+
+BRIEF.steps = [
+  { id: "intro", label: "", html: () => `
+    <div class="kicker">Dirección Creativa</div>
+    <h1>Brief de Identidad Visual</h1>
+    <p class="subtitle">Del concepto a un universo gráfico tangible</p>
+    <p class="lead">Con tus respuestas definiremos la paleta, tipografía, logo, formas e imágenes de tu marca. Será la base de las propuestas visuales que desarrollaremos para ti.</p>
+    <div class="q" style="margin-top:22px"><h3>¿Cómo funciona?</h3><ol class="howto">
+      <li><b>Elige lo que te represente.</b> No hay respuestas correctas ni incorrectas; guíate por lo que te gusta y sientes cercano a tu marca.</li>
+      <li><b>Avanza a tu ritmo.</b> Son pasos cortos, unos 10 minutos. Si ya nos compartiste algo, marca <b>“Ya compartí esta información con Loreto”</b> y sigue.</li>
+      <li><b>Envía tus respuestas.</b> Al final verás un resumen para enviarlo a Loreto o descargarlo en PDF.</li>
+    </ol></div>
+    ${q("¿Cuál es tu nombre?", "", input("nombre", "Tu nombre completo", 'autocomplete="name"'), true, "q-nombre")}
+    ${q("¿Cuál es el nombre de tu marca?", "Si aún no está definido, escribe el nombre de trabajo.", input("marca", "Nombre de la marca", 'autocomplete="organization"'), true, "q-marca")}
+    ${q("Tu correo (opcional)", "", input("correo", "tu@correo.com", 'type="email" autocomplete="email"'), false, "q-correo")}
+  `, validate: () => req("q-nombre", S.nombre.trim(), "Escribe tu nombre para continuar.") && req("q-marca", S.marca.trim(), "Escribe el nombre de tu marca.") },
+
+  { id: "color", label: "Color", html: () => `
+    <h2>Color</h2><p class="lead">El color es lo primero que la gente recuerda de una marca.</p>
+    ${q("Elige hasta 5 gamas de color que te gustaría que tu marca incluyera", "Toca para seleccionar.", multi("colores", PALETTES, { max: 5, cols: "g2 pal", render: (p) => `${swatch(p[1])}<span class="lbl">${H.esc(p[0])}</span>` }), true, "q-colores")}
+    ${q("¿Hay gamas de color que NO quieras en tu marca?", "Opcional. Las que marques se descartarán.", multi("evitar", PALETTES, { cols: "g3", avoid: true, render: (p) => `${swatch(p[1], "sm")}<span class="lbl" style="font-size:12px">${H.esc(p[0])}</span>` }), false, "q-evitar")}
+    ${q("¿Cómo te imaginas la paleta en general?", "Elige hasta 2.", multi("temps", TEMPS, { max: 2 }), false, "q-temps")}
+  `, validate: () => req("q-colores", S.colores.length, "Elige al menos una gama de color.") },
+
+  { id: "tipo", label: "Tipografía", html: () => `
+    <h2>Tipografía</h2><p class="lead">La forma de las letras también comunica personalidad.</p>
+    ${q("Selecciona hasta 3 estilos de letra que consideres ideales para tu marca", "", multi("fuentes", FONTS, { max: 3, render: (f) => `<div class="font-sample" style="font-family:${f[1]};${f[3]}"><span>${H.esc(f[2])}</span></div><span class="sub">${H.esc(f[0])}</span>` }), true, "q-fuentes")}
+  `, validate: () => req("q-fuentes", S.fuentes.length, "Elige al menos un estilo de letra.") },
+
+  { id: "logo", label: "Logo", html: () => `
+    <h2>Logo</h2><p class="lead">Cómo se construye el símbolo de tu marca.</p>
+    ${q("¿Qué tipo de logo te gusta más?", "", single("logo", LOGOS, { render: (l) => `<div class="logo-ill"><svg viewBox="0 0 80 52">${l[2]}</svg></div><span class="lbl">${l[0]}</span><span class="sub">${l[1]}</span>` }), false, "q-logo")}
+    ${q("¿Qué características valoras más en el diseño de tu marca?", "Elige las que quieras.", chips("diseno", DESIGN), false, "q-diseno")}
+    ${q("Elementos gráficos que SÍ te gustaría incluir", "Símbolos, figuras u objetos que representen a tu marca. Ej. una casa, una hoja, un puente.", area("incluir", "Escribe lo que sí quieres ver..."), false, "q-incluir")}
+    ${q("Elementos gráficos que NO quieres en tu diseño", "Lo que prefieres evitar. Ej. escobas, burbujas, clichés de tu industria.", area("evitarElementos", "Escribe lo que no quieres ver..."), false, "q-evitarElem", "avoid-card")}
+  `},
+
+  { id: "estilo", label: "Estilo", html: () => `
+    <h2>Estilo</h2><p class="lead">¿Hacia dónde se inclina tu marca? El 3 es un punto medio.</p>
+    ${q("Ubica tu marca en cada escala", "", scales("escalas", SCALES), true, "q-escalas")}
+  `, validate: () => req("q-escalas", SCALES.every((s) => S.escalas[s[0]]), "Responde todas las escalas para continuar.") },
+
+  { id: "formas", label: "Formas y texturas", html: () => `
+    <h2>Formas y texturas</h2>
+    ${q("¿Qué tipo de formas sientes más afines a tu marca?", "Elige hasta 2.", multi("formas", SHAPES, { max: 2, render: (s) => `<div class="shape"><svg viewBox="0 0 120 56">${s[1]}</svg></div><span class="lbl">${H.esc(s[0])}</span>` }), false, "q-formas")}
+    ${q("¿Qué acabados te gustan?", "Elige los que quieras.", chips("acabados", FINISHES), false, "q-acabados")}
+  `},
+
+  { id: "imagen", label: "Imágenes", html: () => `
+    <h2>Imágenes</h2><p class="lead">Esto nos ayuda a preparar las propuestas de moodboard.</p>
+    ${q("¿Qué tipo de imágenes prefieres para tu marca?", "Elige las que quieras.", multi("imagen", IMGTYPES), false, "q-imagen")}
+    ${q("¿Qué tipo de luz y ambiente te gusta en las imágenes?", "", single("luz", LIGHTS, { render: (l) => `<span class="lbl">${l[0]}</span><span class="sub">${l[1]}</span>` }), false, "q-luz")}
+    ${q("¿Qué tanto deben aparecer personas en las imágenes?", "", chips("personas", PEOPLE, true), false, "q-personas")}
+  `},
+
+  { id: "presencia", label: "Presencia personal", when: () => tipoMarca() !== "Marca de empresa", html: () => `
+    <h2>Presencia personal</h2><p class="lead">Si tú eres la cara de la marca, cuéntanos cómo te sientes cómodo apareciendo.</p>
+    ${q("¿Te gustaría aparecer en la comunicación visual de tu marca?", "", chips("aparecer", APPEAR, true), false, "q-aparecer")}
+    ${q("¿En qué formatos te sentirías cómodo apareciendo?", "Elige los que quieras.", chips("formatos", FORMATS), false, "q-formatos")}
+    ${q("¿Cómo te gustaría verte?", "Elige los que quieras.", chips("verse", LOOKS), false, "q-verse")}
+    ${q("¿Ya cuentas con material visual?", "", chips("material", MATERIAL), false, "q-material")}
+    ${q("¿Hay algo de tu imagen personal que te gustaría que se reflejara?", "Por ejemplo: tu forma de vestir, colores que usas mucho, un accesorio, un lugar.", area("imagenPersonal"), false, "q-imgpersonal")}
+  `},
+
+  { id: "uso", label: "Idioma y aplicaciones", html: () => `
+    <h2>Idioma y aplicaciones</h2>
+    ${q("¿En qué idioma se comunicará tu marca?", "", chips("idioma", LANGS, true) + `<input class="field" style="margin-top:12px;display:${S.idioma === "Otro" ? "block" : "none"}" id="idiomaOtro" data-text="idiomaOtro" value="${H.esc(S.idiomaOtro)}" placeholder="¿Cuál?">`, false, "q-idioma")}
+    ${q("¿Qué aplicaciones de marca necesitas?", "Elige todas las que apliquen.", chips("apps", APPS) + `<div style="margin-top:12px">${input("appsOtro", "Otras (opcional)")}</div>`, false, "q-apps")}
+  `},
+
+  { id: "cierre", label: "Para terminar", html: () => `
+    <h2>Para terminar</h2>
+    ${q("¿Has visto algo visual que sientas que “eres tú”?", "Una marca, un lugar, una portada, una cuenta de Instagram, una película... Puedes pegar links.", area("referencias", "Escribe o pega aquí tus referencias..."), false, "q-refs")}
+    ${q("¿Algo más que quieras contarnos?", "Opcional.", area("comentarios"), false, "q-coment")}
+  `},
+];
+
+const pal = (n) => PALETTES.find((p) => p[0] === n);
+const fnt = (n) => FONTS.find((f) => f[0] === n);
+BRIEF.sections = () => [
+  { h: "Color", pre: () => S._skip["q-colores"] ? "" : `<div>${S.colores.map((n) => `<div class="sum-pal">${swatch(pal(n)[1], "sm")}<span>${H.esc(n)}</span></div>`).join("")}</div>`, rows: [
+    { k: "Gamas elegidas", v: S.colores, skip: "q-colores" }, { k: "Evitar", v: S.evitar, cls: "no", skip: "q-evitar" }, { k: "Paleta en general", v: S.temps, skip: "q-temps" } ] },
+  { h: "Tipografía", pre: () => S._skip["q-fuentes"] ? "" : `<div>${S.fuentes.map((n) => { const f = fnt(n); return `<span class="sum-font" style="font-family:${f[1]};${f[3]}">${H.esc(f[2])}</span>`; }).join("")}</div>`, rows: [
+    { k: "Estilos", v: S.fuentes, skip: "q-fuentes" } ] },
+  { h: "Logo", rows: [
+    { k: "Tipo de logo", v: S.logo, skip: "q-logo" }, { k: "Características de diseño", v: S.diseno, skip: "q-diseno" },
+    { k: "Elementos a incluir", v: S.incluir, skip: "q-incluir" }, { k: "Elementos a evitar", v: S.evitarElementos, skip: "q-evitarElem" } ] },
+  { h: "Estilo (1 a 5)", rows: SCALES.map((s) => ({ k: `${s[1]} ↔ ${s[2]}`, v: S.escalas[s[0]] ? `<b>${S.escalas[s[0]]}</b> <span style="color:#a1a1a6">/ 5</span>` : "", raw: true, text: S.escalas[s[0]] ? `${S.escalas[s[0]]} de 5` : "", skip: "q-escalas" })) },
+  { h: "Formas y texturas", rows: [ { k: "Formas", v: S.formas, skip: "q-formas" }, { k: "Acabados", v: S.acabados, skip: "q-acabados" } ] },
+  { h: "Imágenes", rows: [ { k: "Tipo", v: S.imagen, skip: "q-imagen" }, { k: "Luz y ambiente", v: S.luz, skip: "q-luz" }, { k: "Personas", v: S.personas, skip: "q-personas" } ] },
+  { h: "Presencia personal", rows: tipoMarca() === "Marca de empresa" ? [{ k: "No aplica", v: "Marca de empresa" }] : [
+    { k: "¿Aparecer?", v: S.aparecer, skip: "q-aparecer" }, { k: "Formatos", v: S.formatos, skip: "q-formatos" }, { k: "Cómo verse", v: S.verse, skip: "q-verse" },
+    { k: "Material actual", v: S.material, skip: "q-material" }, { k: "Imagen personal", v: S.imagenPersonal, skip: "q-imgpersonal" } ] },
+  { h: "Idioma y aplicaciones", rows: [
+    { k: "Idioma", v: S.idioma === "Otro" ? "Otro: " + S.idiomaOtro : S.idioma, skip: "q-idioma" },
+    { k: "Aplicaciones", v: [...S.apps, S.appsOtro], skip: "q-apps" } ] },
+  { h: "Referencias y comentarios", rows: [ { k: "Referencias", v: S.referencias, skip: "q-refs" }, { k: "Comentarios", v: S.comentarios, skip: "q-coment" } ] },
+];
+startBrief(BRIEF);
+</script>
+</body>
+</html>
