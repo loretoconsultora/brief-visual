@@ -117,7 +117,26 @@ function startBrief(config) {
       <button type="button" class="btn ghost" id="edit">Editar respuestas</button>
       <a class="btn ghost" href="../" style="text-decoration:none">Volver al inicio</a>
     </div>
+    ${nextCard()}
     <div class="sendbox no-print ${S._enviado ? "ok" : ""}" id="sendmsg">${S._enviado ? `Enviado a Loreto el ${new Date(S._enviado).toLocaleString("es-MX", { dateStyle: "long", timeStyle: "short" })}.` : ""}</div>`;
+  }
+
+  /** Invitación opcional al otro brief, si todavía no lo envía. */
+  function nextCard() {
+    const n = B.next;
+    if (!n) return "";
+    let other = null;
+    try { other = JSON.parse(localStorage.getItem(n.key)); } catch (e) {}
+    if (other && other._enviado) return "";
+    const started = other && other.nombre;
+    return `<a class="home-card no-print" href="${n.href}" style="margin-top:22px">
+      <span class="num">Opcional · ${esc(n.parte)}</span>
+      <h2>${esc(n.titulo)}</h2>
+      <p>${esc(n.desc)}</p>
+      <div class="meta"><span>${esc(n.duracion)}</span>${started ? '<span class="status prog">En progreso</span>' : ""}</div>
+      <span class="btn primary go">${started ? "Continuar" : "Responder ahora"}</span>
+    </a>
+    <p class="no-print" style="font-size:13px;color:#86868B;margin-top:10px">Puedes hacerlo ahora o después desde el mismo link; tus datos ya quedan cargados.</p>`;
   }
 
   async function send() {

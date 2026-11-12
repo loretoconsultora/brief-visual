@@ -123,6 +123,8 @@ const BRIEF = {
   tipo: "visual",
   titulo: "Brief de identidad visual",
   noSkip: ["q-nombre", "q-marca"],
+  next: { key: "loreto-brief-estrategia-v1", href: "../estrategia/", parte: "Parte 1 · Conceptual", titulo: "Estrategia de marca", duracion: "8 pasos · unos 20 minutos",
+    desc: "La esencia detrás de lo visual: tu historia, propósito, audiencia, competencia, personalidad y forma de hablar. Si ya nos lo contaste, puedes saltar cada pregunta." },
   blank: { colores: [], evitar: [], temps: [], fuentes: [], escalas: {}, formas: [], acabados: [], logo: "", diseno: [], incluir: "", evitarElementos: "", imagen: [], luz: "", personas: "", aparecer: "", formatos: [], verse: [], material: [], imagenPersonal: "", idioma: "", idiomaOtro: "", apps: [], appsOtro: "", referencias: "", comentarios: "" },
   afterRender() { fitFonts(); if (document.fonts) document.fonts.ready.then(fitFonts); },
   onChange(k) { if (k === "idioma") { const o = document.getElementById("idiomaOtro"); if (o) o.style.display = S.idioma === "Otro" ? "block" : "none"; } },
