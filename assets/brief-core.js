@@ -74,6 +74,8 @@ function startBrief(config) {
       } catch (e) {}
     }, 250);
   }
+  // guarda de inmediato si cierran o cambian de página antes de que corra el guardado diferido
+  addEventListener("pagehide", () => { try { localStorage.setItem(B.key, JSON.stringify(S)); } catch (e) {} });
   function flash(t) {
     const el = document.getElementById("saved");
     el.textContent = t;

@@ -60,7 +60,7 @@ window.BRIEF = {
     cargo: "", telefono: "", etapa: "", tipoMarca: "",
     ofrece: [], ofreceOtro: "", giro: "", historia: "", principales: "",
     proposito: "", obj1: "", obj3: "", obj5: "", lograr: "",
-    fortalezas: [], debilidades: [], amenazas: [], diagOtro: "", hoy3: "", quiero3: "", funciona: "", noFunciona: "",
+    fortalezas: [], fortalezasOtro: "", debilidades: [], debilidadesOtro: "", amenazas: [], diagOtro: "", hoy3: "", quiero3: "", funciona: "", noFunciona: "",
     a1_quien: "", a1_genero: "", a1_edad: "", a1_zona: "", a1_personalidad: "", a1_intereses: "", a1_dolores: "", a1_valoran: "", a1_dudas: "", canales: [],
     a2_tiene: "", a2_quien: "", a2_edad: "", a2_dolores: "", a2_valoran: "",
     c1: "", c1b: "", c1m: "", c2: "", c2b: "", c2m: "", c3: "", c3b: "", c3m: "", admira: "", unico: "", eligen: "", problema: "",
@@ -111,13 +111,13 @@ BRIEF.steps = [
 
   { id: "diagnostico", label: "Diagnóstico", html: () => `
     <h2>Diagnóstico</h2><p class="lead">Dónde está tu marca hoy.</p>
-    ${q("¿Cuáles son las fortalezas de tu marca?", "Elige todas las que apliquen.", chips("fortalezas", FORTALEZAS), true, "q-fortalezas")}
-    ${q("¿Y sus debilidades?", "Elige todas las que apliquen.", chips("debilidades", FORTALEZAS), true, "q-debilidades")}
-    ${q("¿Qué amenazas ves en tu mercado?", "Elige las que apliquen.", chips("amenazas", AMENAZAS) + `<div style="margin-top:12px">${input("diagOtro", "Otras fortalezas, debilidades o amenazas (opcional)")}</div>`, false, "q-amenazas")}
+    ${q("¿Cuáles son las fortalezas de tu marca?", "Elige todas las que apliquen y agrega las tuyas.", chips("fortalezas", FORTALEZAS) + `<div style="margin-top:12px">${input("fortalezasOtro", "Otras fortalezas, separadas por coma (ej. puntualidad, recomendaciones)")}</div>`, true, "q-fortalezas")}
+    ${q("¿Y sus debilidades?", "Elige todas las que apliquen y agrega las tuyas.", chips("debilidades", FORTALEZAS) + `<div style="margin-top:12px">${input("debilidadesOtro", "Otras debilidades, separadas por coma (ej. poco tiempo, sin sistema de ventas)")}</div>`, true, "q-debilidades")}
+    ${q("¿Qué amenazas ves en tu mercado?", "Elige las que apliquen.", chips("amenazas", AMENAZAS) + `<div style="margin-top:12px">${input("diagOtro", "Otras amenazas, separadas por coma (opcional)")}</div>`, false, "q-amenazas")}
     ${q("¿Con qué 3 palabras te describen hoy tus clientes?", "", input("hoy3", "Ej. puntuales, amables, caros"), true, "q-hoy3")}
     ${q("¿Con qué 3 palabras te gustaría que te describieran?", "", input("quiero3", "Ej. confiables, expertos, cercanos"), true, "q-quiero3")}
     ${q("De tu marca actual, ¿qué funciona y qué no?", "Logo, nombre, redes, sitio web, la forma de hablar... Si es una marca nueva, puedes saltar esta pregunta.", `<div class="sublabel">Lo que funciona</div>${area("funciona")}<div class="sublabel">Lo que no funciona</div>${area("noFunciona")}`, false, "q-funciona")}
-  `, validate: () => req("q-fortalezas", S.fortalezas.length, "Elige al menos una fortaleza.") && req("q-debilidades", S.debilidades.length, "Elige al menos una debilidad.") && req("q-hoy3", S.hoy3.trim(), "Escribe 3 palabras.") && req("q-quiero3", S.quiero3.trim(), "Escribe 3 palabras.") },
+  `, validate: () => req("q-fortalezas", S.fortalezas.length || S.fortalezasOtro.trim(), "Elige o escribe al menos una fortaleza.") && req("q-debilidades", S.debilidades.length || S.debilidadesOtro.trim(), "Elige o escribe al menos una debilidad.") && req("q-hoy3", S.hoy3.trim(), "Escribe 3 palabras.") && req("q-quiero3", S.quiero3.trim(), "Escribe 3 palabras.") },
 
   { id: "audiencia", label: "Audiencia", html: () => `
     <h2>Audiencia</h2><p class="lead">Diseñemos algo especial para las personas a las que te diriges.</p>
@@ -165,6 +165,7 @@ BRIEF.steps = [
   `},
 ];
 
+const split = (t) => String(t || "").split(",").map((x) => x.trim()).filter(Boolean);
 const lines = (...xs) => xs.filter((x) => x && x.trim()).join("\n");
 BRIEF.sections = () => [
   { h: "Datos", rows: [
@@ -179,8 +180,8 @@ BRIEF.sections = () => [
     { k: "Objetivos a 1 año", v: S.obj1, skip: "q-objetivos" }, { k: "Objetivos a 3 años", v: S.obj3, skip: "q-objetivos" }, { k: "Objetivos a 5 años o más", v: S.obj5, skip: "q-objetivos" },
     { k: "Qué debe lograr en 12 meses", v: S.lograr, skip: "q-lograr" } ] },
   { h: "Diagnóstico", rows: [
-    { k: "Fortalezas", v: S.fortalezas, skip: "q-fortalezas" }, { k: "Debilidades", v: S.debilidades, skip: "q-debilidades" },
-    { k: "Amenazas", v: [...S.amenazas, S.diagOtro], skip: "q-amenazas" },
+    { k: "Fortalezas", v: [...S.fortalezas, ...split(S.fortalezasOtro)], skip: "q-fortalezas" }, { k: "Debilidades", v: [...S.debilidades, ...split(S.debilidadesOtro)], skip: "q-debilidades" },
+    { k: "Amenazas", v: [...S.amenazas, ...split(S.diagOtro)], skip: "q-amenazas" },
     { k: "Cómo la describen hoy", v: S.hoy3, skip: "q-hoy3" }, { k: "Cómo quiere que la describan", v: S.quiero3, skip: "q-quiero3" },
     { k: "Lo que funciona", v: S.funciona, skip: "q-funciona" }, { k: "Lo que no funciona", v: S.noFunciona, skip: "q-funciona" } ] },
   { h: "Audiencia principal", rows: [
