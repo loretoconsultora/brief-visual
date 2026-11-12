@@ -23,18 +23,18 @@
       <span class="num">Parte 1 · Conceptual</span>
       <h2>Estrategia de marca</h2>
       <p>Tu historia, propósito, objetivos, audiencia, competencia, personalidad y forma de hablar.</p>
-      <div class="meta"><span>8 pasos · unos 20 minutos</span><span class="status" data-key="loreto-brief-estrategia-v1"></span></div>
+      <div class="meta"><span>8 pasos · unos 20 minutos</span></div>
       <span class="btn primary go">Responder</span>
     </a>
     <a class="home-card" id="card-visual" href="visual/">
       <span class="num">Parte 2 · Visual</span>
       <h2>Identidad visual</h2>
       <p>Colores, tipografía, logo, estilo, formas, imágenes y las aplicaciones que necesitas.</p>
-      <div class="meta"><span>9 pasos · unos 10 minutos</span><span class="status" data-key="loreto-brief-visual-v1"></span></div>
+      <div class="meta"><span>9 pasos · unos 10 minutos</span></div>
       <span class="btn primary go">Responder</span>
     </a>
   </div>
-  <p class="lead" style="font-size:14px;margin-top:22px;color:#86868B">Tus respuestas se guardan en este dispositivo mientras respondes, así que puedes continuar después. Si ya nos compartiste algo, cada pregunta te deja marcarlo y avanzar.</p>
+  <p class="lead" style="font-size:14px;margin-top:22px;color:#86868B">Si ya nos compartiste algo, cada pregunta te deja marcarlo y avanzar.</p>
 </main>
 <script>
 const qs = location.search;
@@ -44,14 +44,6 @@ try {
   const marca = id.marca || new URLSearchParams(qs).get("marca");
   if (marca) document.getElementById("title").textContent = "Construyamos " + marca;
 } catch (e) {}
-document.querySelectorAll(".status").forEach((el) => {
-  let d = null;
-  try { d = JSON.parse(localStorage.getItem(el.dataset.key)); } catch (e) {}
-  const card = el.closest(".home-card");
-  if (d && d._enviado) { el.textContent = "Enviado"; el.classList.add("done"); card.querySelector(".go").textContent = "Ver respuestas"; card.href += (card.href.includes("?") ? "&" : "?") + "paso=resumen"; }
-  else if (d && d.nombre) { el.textContent = "En progreso"; el.classList.add("prog"); card.querySelector(".go").textContent = "Continuar"; }
-  else el.textContent = "Sin empezar";
-});
 </script>
 </body>
 </html>
